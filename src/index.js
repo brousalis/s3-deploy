@@ -1,6 +1,7 @@
 const s3 = require('s3');
 const chalk = require('chalk');
 const log = require('./util').log;
+const slack = require('./util').slack;
 
 const env = process.env.NODE_ENV;
 
@@ -37,6 +38,8 @@ const deploy = function() {
 
   uploader.on('end', function() {
     log('🍺  Upload complete!');
+
+    slack(`deployed to S3 bucket ${process.env.AWS_BUCKET}`);
   });
 }
 
