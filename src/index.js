@@ -32,7 +32,7 @@ const deploy = function() {
   });
 
   uploader.on('fileUploadStart', function(localFilePath, s3Key) {
-    log('  Uploading', chalk.yellow(localFilePath));
+    console.log('  Uploading', chalk.yellow(localFilePath));
   });
 
   uploader.on('end', function() {
