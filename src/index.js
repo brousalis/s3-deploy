@@ -1,4 +1,5 @@
 const s3 = require('s3');
+const chalk = require('chalk');
 const log = require('./util').log;
 
 const env = process.env.NODE_ENV;
