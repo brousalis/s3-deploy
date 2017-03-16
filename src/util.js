@@ -15,11 +15,10 @@ module.exports.slack = function(msg) {
   const body = {
     attachments: [
       {
-         color: '#e04c2c',
-         mrkdwn_in: ['text', 'pretext'],
-         text: msg
-        'fallback': msg,
-        'pretext': msg
+        color: '#e04c2c',
+        mrkdwn_in: ['text', 'pretext'],
+        text: msg,
+        fallback: msg,
       }
     ]
   }

@@ -39,7 +39,7 @@ const deploy = function() {
   uploader.on('end', function() {
     log('🍺  Upload complete!');
 
-    slack(`deployed to S3 bucket ${process.env.AWS_BUCKET}`);
+    slack(`Deploying *${process.env.NODE_ENV}* build to S3 bucket ${process.env.AWS_BUCKET}`);
   });
 }
 
