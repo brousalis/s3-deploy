@@ -1,4 +1,5 @@
-const request = require('request');
+var request = require('request');
+var fs = require('fs');
 
 module.exports.log = function(msg) {
   console.log();
@@ -12,7 +13,7 @@ module.exports.slack = function(msg) {
     return;
   }
 
-  const body = {
+  var body = {
     attachments: [
       {
         color: '#e04c2c',
@@ -29,3 +30,33 @@ module.exports.slack = function(msg) {
     body: body
   });
 }
+
+function walk(dir, action, done) {
+  fs.readdir(dir, function(error, list) {
+    if (error) { return done(error); }
+
+    var i = 0;
+
+    (function next() {
+      var file = list[i++];
+
+      if (!file) { return done(null); }
+
+      file = dir + '/' + file;
+
+      fs.stat(file, function(error, stat) {
+        if (stat && stat.isDirectory()) {
+          walk(file, function(error) {
+            next();
+          });
+        } else {
+          action(file);
+          // console.log(file);
+          next();
+        }
+      });
+    })();
+  });
+}
+
+module.exports.walk = walk;

@@ -1,26 +1,26 @@
-const s3 = require('s3');
-const chalk = require('chalk');
-const log = require('./util').log;
-const slack = require('./util').slack;
+var s3 = require('s3');
+var chalk = require('chalk');
+var log = require('./util').log;
+var slack = require('./util').slack;
 
-const env = process.env.NODE_ENV;
+var env = process.env.NODE_ENV;
 
 require('dotenv').config({
   path: '.env' + (env === 'development' ? '' : '.' + env),
   silent: true
 });
 
-const deploy = function() {
+var deploy = function() {
   log('Deploying', chalk.blue(env), 'to', chalk.blue(process.env.AWS_BUCKET));
 
-  const client = s3.createClient({
+  var client = s3.createClient({
     s3Options: {
-      accessKeyId: process.env.AWS_KEY,
-      secretAccessKey: process.env.AWS_SECRET,
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
     },
   });
 
-  const uploader = client.uploadDir({
+  var uploader = client.uploadDir({
     localDir: 'build',
     deleteRemoved: true,
     s3Params: {
@@ -39,7 +39,7 @@ const deploy = function() {
   uploader.on('end', function() {
     log('🍺  Upload complete!');
 
-    slack(`Deploying *${process.env.NODE_ENV}* build to S3 bucket ${process.env.AWS_BUCKET}`);
+    slack(`Deployed *${process.env.NODE_ENV}* build to S3 bucket ${process.env.AWS_BUCKET}`);
   });
 }
 

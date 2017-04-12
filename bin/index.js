@@ -1,10 +1,12 @@
 #! /usr/bin/env node
 
-const deploy = require('../src/index');
-const chalk = require('chalk');
-const log = require('../src/util').log;
+var deploy = require('../src/index');
+var chalk = require('chalk');
+var log = require('../src/util').log;
 
-if (!process.env.AWS_KEY || !process.env.AWS_BUCKET || !process.env.AWS_SECRET) {
+if (!process.env.AWS_ACCESS_KEY_ID
+  || !process.env.AWS_BUCKET
+  || !process.env.AWS_SECRET) {
   log(chalk.red('Failed!'), 'You seem to missing the AWS bucket config in your .env.');
   return false;
 }
